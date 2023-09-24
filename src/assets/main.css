@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  background: rgb(21, 112, 194);
+  background: linear-gradient(
+    329deg,
+    rgba(21, 112, 194, 1) 0%,
+    rgba(140, 175, 95, 1) 74%,
+    rgba(255, 235, 0, 1) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
