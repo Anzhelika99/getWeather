@@ -12,7 +12,6 @@
       <p>{{ showMinTemp }}</p>
       <p>{{ showMaxTemp }}</p>
     </div>
-    <button @click="gismeteoGetWeather()">Гисметео</button>
   </div>
 </template>
 
@@ -59,22 +58,6 @@ export default {
         )
         .then((res) => (this.info = res.data.main))
         .catch((err) => alert(`Введите ${err}`));
-    },
-    gismeteoGetWeather() {
-      axios
-        .get(
-          "https://api.gismeteo.net/v2/search/cities/?query=%D0%BA%D0%B5%D0%BC%D0%B5%D1%80%D0%BE%D0%B2%D0%BE",
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "X-Gismeteo-Token": "	56b30cb255.3443075",
-              "Accept-Encoding": "deflate",
-            },
-          }
-        )
-        .then((response) => response.json())
-        .then((data) => console.log(data));
     },
   },
 };
