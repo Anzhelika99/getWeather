@@ -1,2 +1,0 @@
-Header set Access-Control-Allow-Origin 'https://anzhelika99.github.io/getWeather/'
-Header set Access-Control-Allow-Headers 'Content-Length, Content-Type'
