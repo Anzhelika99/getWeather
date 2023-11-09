@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper">
+  <div class="wrapper">
     <h1>Погодное приложение</h1>
     <p>Узнать погоду в {{ city ? cityName : "Вашем городе" }}</p>
     <input type="text" v-model="city" placeholder="Введите город" />
@@ -7,11 +7,12 @@
     <button disabled v-else>Введите название города</button>
     <p class="error">{{ error }}</p>
     <div class="show-temp" v-if="info != null">
-      <p> {{ showTemp }}</p>
-      <p> {{ showFeelsLike }}</p>
-      <p> {{ showMinTemp }}</p>
-      <p> {{ showMaxTemp }}</p>
+      <p>{{ showTemp }}</p>
+      <p>{{ showFeelsLike }}</p>
+      <p>{{ showMinTemp }}</p>
+      <p>{{ showMaxTemp }}</p>
     </div>
+    <button @click="gismeteoGetWeather()">Гисметео</button>
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     return {
       city: "",
       error: "",
-      info: null
+      info: null,
     };
   },
   computed: {
@@ -31,17 +32,17 @@ export default {
       return `"${this.city}"`;
     },
     showTemp() {
-      return `Температура: ${this.info.temp}°C`
+      return `Температура: ${this.info.temp}°C`;
     },
     showFeelsLike() {
-      return `Ощущается как: ${this.info.feels_like}°C`
+      return `Ощущается как: ${this.info.feels_like}°C`;
     },
     showMinTemp() {
-      return `Минимальная температура: ${this.info.temp_min}°C`
+      return `Минимальная температура: ${this.info.temp_min}°C`;
     },
     showMaxTemp() {
-      return `Максимальная температура: ${this.info.temp_max}°C`
-    }
+      return `Максимальная температура: ${this.info.temp_max}°C`;
+    },
   },
   methods: {
     getWeather() {
@@ -52,15 +53,34 @@ export default {
 
       this.error = "";
 
-      axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=98b58d80fa8f2e05a327af2b52ae24a5`
-      ).then(res => (this.info = res.data.main))
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=98b58d80fa8f2e05a327af2b52ae24a5`
+        )
+        .then((res) => (this.info = res.data.main))
+        .catch((err) => alert(`Введите ${err}`));
+    },
+    gismeteoGetWeather() {
+      axios
+        .get(
+          "https://api.gismeteo.net/v2/search/cities/?query=%D0%BA%D0%B5%D0%BC%D0%B5%D1%80%D0%BE%D0%B2%D0%BE",
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "X-Gismeteo-Token": "	56b30cb255.3443075",
+              "Accept-Encoding": "deflate",
+            },
+          }
+        )
+        .then((response) => response.json())
+        .then((data) => console.log(data));
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 .error {
   color: #d03939;
 }
@@ -73,48 +93,51 @@ export default {
   background: #1f0f24;
   text-align: center;
   color: #fff;
-}
 
-.wrapper h1 {
-  margin-top: 50px;
-}
+  h1 {
+    margin-top: 50px;
+  }
 
-.wrapper p {
-  margin-top: 20px;
-}
+  p {
+    margin-top: 20px;
+  }
 
-.wrapper input {
-  margin-top: 30px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid #110813;
-  color: #fefefe;
-  font-size: 14px;
-  padding: 5px 8px;
-  outline: none;
-}
+  input {
+    margin-top: 30px;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid #110813;
+    color: #fefefe;
+    font-size: 14px;
+    padding: 5px 8px;
+    outline: none;
 
-.wrapper input:focus {
-  border-bottom-color: #6e2d7d;
-}
+    &:focus {
+      border-bottom-color: #6e2d7d;
+    }
+  }
 
-.wrapper button {
-  background: #e3bc4b;
-  border: 0;
-  color: #ffffff;
-  border-radius: 10px;
-  padding: 10px 15px;
-  margin-left: 20px;
-  cursor: pointer;
-  transition: transform 500ms ease;
-}
+  input:focus {
+    border-bottom-color: #6e2d7d;
+  }
 
-.wrapper button:disabled {
-  background: #746027;
-  cursor: not-allowed;
-}
+  button {
+    background: #e3bc4b;
+    border: 0;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 500ms ease;
 
-.wrapper button:hover {
-  transform: scale(1.1) translateY(-5px);
+    &:hover {
+      transform: scale(1.1) translateY(-5px);
+    }
+    &:disabled {
+      background: #746027;
+      cursor: not-allowed;
+    }
+  }
 }
 </style>
